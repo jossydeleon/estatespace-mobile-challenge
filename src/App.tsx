@@ -4,11 +4,14 @@ import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import RootNavigator from './navigation/RootNavigator';
+import DataProvider from './context/DataProvider';
 
 const App: React.FC = () => {
   return (
     <View style={styles.container}>
-      <RootNavigator />
+      <DataProvider>
+        <RootNavigator />
+      </DataProvider>
       <StatusBar style="auto" />
     </View>
   );

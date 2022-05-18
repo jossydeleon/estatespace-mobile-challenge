@@ -1,27 +1,34 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, FlatList, ListRenderItem } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import { UsersScreenNavigationProp } from '../navigation/types';
 import { User } from '../types';
 import UserItem from './UserItem';
+import useData from '../hooks/useData';
 
 interface UserListsProps {
     users: User[];
+    onFetchMore: () => void;
 }
 
 /**
  * This component renders a list of user
  */
-const UserLists: React.FC<UserListsProps> = ({ users }) => {
+const UserLists: React.FC<UserListsProps> = ({ users, onFetchMore }) => {
 
+    // Hook navigation
     const navigation = useNavigation<UsersScreenNavigationProp>();
+
+    // Hook data context
+    const { setUser } = useData();
 
     /**
        * Navigate to User details screen
        * @param user User information object
        */
     const handleUserSelected = React.useCallback((user: User) => {
-        navigation.navigate("UserDetails", { name: user.email })
+        setUser(user);
+        navigation.navigate("UserDetails", { name: user.name.firstName })
     }, [navigation]);
 
     /**
@@ -41,6 +48,8 @@ const UserLists: React.FC<UserListsProps> = ({ users }) => {
             data={users}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
+            onEndReachedThreshold={0.3}
+            onEndReached={onFetchMore}
         />
     );
 }

@@ -1,16 +1,22 @@
-import { RouteProp } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import useData from '../hooks/useData';
 
-interface Props {
-  route: RouteProp<{ params: { name: string } }>
-}
+const UserDetails: React.FC = () => {
 
-const UserDetails: React.FC<Props> = ({ route }) => (
-  <View style={styles.container}>
-    <Text>{route.params.name}</Text>
-  </View>
-);
+  // Hook data store
+  const { userSelected, setUser } = useData();
+
+  useEffect(() => {
+    return () => setUser(undefined);
+  }, [])
+
+  return (
+    <View style={styles.container}>
+      <Text>{userSelected?.name.firstName}</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

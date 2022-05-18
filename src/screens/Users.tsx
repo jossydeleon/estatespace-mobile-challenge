@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  StyleSheet, View, ActivityIndicator,
+  StyleSheet, View,
 } from 'react-native';
 import UserLists from '../components/UserLists';
 import useApi from '../hooks/useApi';
@@ -13,18 +13,13 @@ interface Props {
 const Users: React.FC<Props> = () => {
 
   // Hook to fetch api
-  const { loading, data } = useApi();
-
-
-  if (loading) {
-    <ActivityIndicator />
-  }
+  const { data, fetchMore } = useApi();
 
   return (
     <View style={styles.container}>
       <UserLists
-        users={data?.entries || []}
-
+        users={data}
+        onFetchMore={fetchMore}
       />
     </View>
   );
@@ -34,8 +29,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    alignItems: 'center'
   },
 });
 
