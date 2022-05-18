@@ -24,6 +24,7 @@ const MainNavigator: React.FC = () => (
     <Stack.Screen
       name="UserDetails"
       component={UserDetails}
+      options={({ route }) => ({ title: route.params.name })}
     />
   </Stack.Navigator>
 );

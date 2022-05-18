@@ -9,3 +9,8 @@ export type UsersScreenNavigationProp = StackNavigationProp<
   StackScreensParams,
   'Users'
 >
+
+export type UserDetailsScreenNavigationProp = StackNavigationProp<
+  StackScreensParams,
+  'UserDetails'
+>

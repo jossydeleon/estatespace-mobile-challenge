@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  StyleSheet, Text, View, Button,
+  StyleSheet, View, ActivityIndicator,
 } from 'react-native';
+import UserLists from '../components/UserLists';
+import useApi from '../hooks/useApi';
 import { UsersScreenNavigationProp } from '../navigation/types';
 
 interface Props {
   navigation: UsersScreenNavigationProp;
 }
 
-const Users: React.FC<Props> = ({ navigation }) => {
+const Users: React.FC<Props> = () => {
+
+  // Hook to fetch api
+  const { loading, data } = useApi();
+
+
+  if (loading) {
+    <ActivityIndicator />
+  }
 
   return (
     <View style={styles.container}>
-      <Text>Hello Users!</Text>
-      <Button onPress={() => navigation.navigate('UserDetails', { name: 'Salome' })} title="Details" />
+      <UserLists
+        users={data?.entries || []}
+
+      />
     </View>
   );
 };
@@ -22,8 +34,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
 

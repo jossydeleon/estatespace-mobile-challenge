@@ -1,9 +1,14 @@
+import { RouteProp } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-const UserDetails: React.FC = () => (
+interface Props {
+  route: RouteProp<{ params: { name: string } }>
+}
+
+const UserDetails: React.FC<Props> = ({ route }) => (
   <View style={styles.container}>
-    <Text>User Details</Text>
+    <Text>{route.params.name}</Text>
   </View>
 );
 
