@@ -124,3 +124,20 @@ typings/
 # dotenv environment variables file
 .env
 
+# Expo
+.expo/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
+
+#VsCode
+.vscode/
