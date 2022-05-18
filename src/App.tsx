@@ -12,7 +12,7 @@ const App: React.FC = () => {
       <DataProvider>
         <RootNavigator />
       </DataProvider>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
     </View>
   );
 }

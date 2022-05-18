@@ -19,6 +19,7 @@ const MainNavigator: React.FC = () => (
     <Stack.Screen
       name="Users"
       component={Users}
+      options={{ title: "Mobile Challenge" }}
     />
 
     <Stack.Screen
