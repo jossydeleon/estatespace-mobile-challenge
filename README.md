@@ -33,8 +33,8 @@ expo start --android
 | TypeScript                   | It is a strict syntactical superset of JavaScript                                  |
 | React Native                 | JavaScript-based mobile app framework to build natively-rendered mobile apps for iOS and Android |
 | Expo                         | Expo is a framework to build React Native apps compatible for iOs, Android and Web |
-| React Context | Hooks        | JavaScript interface for accessing and manipulating parts of the HTTP pipeline, such as requests and responses. |
-| Fetch API                    | Expo is a framework to build React Native apps compatible for iOs, Android and Web |
+| React Context & Hooks        | A way to pass data through the component tree without having to pass props down manually at every level.|
+| Fetch API                    | JavaScript interface for accessing and manipulating parts of the HTTP pipeline, such as requests and responses. |
 | React Navigation 6           | Routing and navigation for Expo and React Native apps                              |
 
 ## Screenshoots 📲 
