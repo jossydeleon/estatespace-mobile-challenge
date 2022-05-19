@@ -11,4 +11,7 @@ const defaultValues = {
     setUser: (() => { })
 }
 
+/**
+ * React Context to share data between screens
+ */
 export default React.createContext<Props>(defaultValues);

@@ -5,16 +5,18 @@ import { UsersScreenNavigationProp } from '../navigation/types';
 import { User } from '../types';
 import UserItem from './UserItem';
 import useData from '../hooks/useData';
+import Loader from './Loader';
 
 interface UserListsProps {
     users: User[];
     onFetchMore: () => void;
+    isFetching: boolean;
 }
 
 /**
  * This component renders a list of user
  */
-const UserLists: React.FC<UserListsProps> = ({ users, onFetchMore }) => {
+const UserLists: React.FC<UserListsProps> = ({ users, onFetchMore, isFetching }) => {
 
     // Hook navigation
     const navigation = useNavigation<UsersScreenNavigationProp>();
@@ -48,8 +50,9 @@ const UserLists: React.FC<UserListsProps> = ({ users, onFetchMore }) => {
             data={users}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
-            onEndReachedThreshold={0.3}
+            onEndReachedThreshold={0.9}
             onEndReached={onFetchMore}
+            ListFooterComponent={isFetching ? <Loader /> : undefined}
         />
     );
 }

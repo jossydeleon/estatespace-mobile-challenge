@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import Avatar from '../components/Avatar';
 import useData from '../hooks/useData';
@@ -6,18 +6,14 @@ import useData from '../hooks/useData';
 const UserDetails: React.FC = () => {
 
   // Hook data store
-  const { userSelected, setUser } = useData();
-
-  useEffect(() => {
-    return () => setUser(undefined);
-  }, [])
+  const { userSelected } = useData();
 
   return (
     <View style={styles.container}>
-      <Avatar gender={userSelected.gender} />
+      {userSelected?.gender && <Avatar gender={userSelected.gender} />}
       <Text style={styles.name}>{`${userSelected?.name.firstName} ${userSelected?.name.lastName}`}</Text>
       <Text style={styles.role}>{userSelected?.role}</Text>
-      <Text style={styles.email}>{userSelected.email}</Text>
+      <Text style={styles.email}>{userSelected?.email}</Text>
     </View>
   );
 };

@@ -1,102 +1,70 @@
-import React from 'react';
-import { SuccessResponse, User } from '../types';
+import { useState, useEffect } from 'react';
+import { API_ENDPOINT, API_KEY } from '../../config';
+import { User } from '../types';
+import { handleError } from '../util/errorHandler';
 
 const INITIAL_PAGE = 1;
 
-const dummy: SuccessResponse = {
-  "total": 1000,
-  "page": 1,
-  "count": 3,
-  "numPages": 334,
-  "entries": [
-    {
-      "id": 1,
-      "name": {
-        "firstName": "Thorny",
-        "lastName": "Clayborn"
-      },
-      "email": "tclayborn0@altervista.org",
-      "gender": "Male",
-      "role": "Test Engineer"
-    },
-    {
-      "id": 2,
-      "name": {
-        "firstName": "Layney",
-        "lastName": "Juan"
-      },
-      "email": "ljuan1@google.com.au",
-      "gender": "Male",
-      "role": "Vendor"
-    },
-    {
-      "id": 3,
-      "name": {
-        "firstName": "Ulrich",
-        "lastName": "Lepper"
-      },
-      "email": "ulepper2@example.com",
-      "gender": "Male",
-      "role": "Vendor"
-    },
-    {
-      "id": 4,
-      "name": {
-        "firstName": "Josymar",
-        "lastName": "De Leon"
-      },
-      "email": "jossydeleon@gmail.com",
-      "gender": "Male",
-      "role": "Developer"
-    }
-  ]
-}
-
+/**
+ * Custom hook to handle API call
+ */
 const useApi = () => {
-  const [data, setData] = React.useState<User[]>([]);
-  const [nextPage, setNextPage] = React.useState(1);
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState<unknown | undefined>();
+  const [data, setData] = useState<User[]>([]);
+  const [nextPage, setNextPage] = useState(INITIAL_PAGE);
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
+  const [error, setError] = useState<string | undefined>();
 
   /**
-   * 
+   * Refresh data from initial page
    */
-  const fetchMore = () => {
-    fetchData(true);
+  const refresh = () => {
+    setData([]);
+    setNextPage(INITIAL_PAGE);
   }
 
   /**
-   * 
+   * Request more data from fetchData function
    */
-  const fetchData = async (shouldFetchMore = false) => {
-    try {
+  const fetchMore = () => {
+    setNextPage(nextPage + 1)
+  }
+
+  /**
+   * Fetch data from api
+   */
+  const fetchData = async () => {
+
+    setError(undefined)
+
+    if (nextPage !== INITIAL_PAGE) {
+      setFetching(true);
+    } else {
       setLoading(true);
-      setError(undefined)
-
-      const response = await Promise.resolve(dummy);
-      setData(response.entries);
-      setNextPage(nextPage + 1);
-      if (shouldFetchMore) {
-        setData(oldState => [...oldState, ...response.entries])
-      } else {
-        setData(response.entries);
-      }
-
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false)
     }
+
+    fetch(`${API_ENDPOINT}?page=${nextPage}&count=40&key=${API_KEY}`)
+      .then(handleError)
+      .then(json => {
+        setData(oldState => [...oldState, ...json.entries])
+      })
+      .catch(err => setError(err.message))
+      .finally(() => {
+        setLoading(false);
+        setFetching(false);
+      })
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [nextPage]);
 
   return {
     loading,
+    fetching,
     data,
     error,
+    refresh,
     fetchMore,
   };
 };
